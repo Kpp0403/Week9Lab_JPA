@@ -70,6 +70,7 @@ public class UserServlet extends HttpServlet {
             throws ServletException, IOException {
 
         UserService usersv = new UserService();
+        RoleService rolesv = new RoleService();
 
         String action = request.getParameter("action");
 
@@ -79,15 +80,13 @@ public class UserServlet extends HttpServlet {
         String password = request.getParameter("password");
         String roleOfUser = request.getParameter("role");
 
-        Role role = new Role(roleOfUser);
-
         try {
             switch (action) {
                 case "add":
-                    usersv.insert(email, firstName, lastName, password, role);
+                    usersv.insert(email, firstName, lastName, password, rolesv.get(roleOfUser));
                     break;
                 case "update":
-                    usersv.update(email, firstName, lastName, password, role);
+                    usersv.update(email, firstName, lastName, password, rolesv.get(roleOfUser));
                     break;
             }
 
